@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -18,6 +19,9 @@ import java.time.ZoneId;
 public class ParkingSpotController {
 
     final ParkingSpotService parkingSpotService;
+    public ParkingSpotController(ParkingSpotService parkingSpotService) {
+        this.parkingSpotService = parkingSpotService;
+    }
 
     @PostMapping
     public ResponseEntity<Object> saveParkingSpot(@RequestBody @Valid ParkingSpotDto parkingSpotDto){
@@ -36,7 +40,9 @@ public class ParkingSpotController {
         parkingSpotModel.setRegistrationDate(LocalDateTime.now(ZoneId.of("UTC")));
         return ResponseEntity.status(HttpStatus.CREATED).body(parkingSpotService.save(parkingSpotModel));
     }
-    public ParkingSpotController(ParkingSpotService parkingSpotService) {
-        this.parkingSpotService = parkingSpotService;
+    @GetMapping
+    public ResponseEntity<List<ParkingSpotModel>> getAllParkingSpots(){
+        return ResponseEntity.status(HttpStatus.OK).body(parkingSpotService.findAll());
     }
+
 }
