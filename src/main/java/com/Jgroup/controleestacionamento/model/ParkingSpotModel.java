@@ -32,6 +32,9 @@ public class ParkingSpotModel implements Serializable {
     @Column(nullable = false, length = 30)
     private String tower;
 
+    public ParkingSpotModel() {
+    }
+
     public UUID getId() {
         return id;
     }
